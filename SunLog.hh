@@ -1,0 +1,18 @@
+#ifndef SUN_LOG_HH
+#define SUN_LOG_HH
+
+#include "soil/Log.hh"
+
+#define SUN_LOG_INIT(x) SOIL_LOG_INIT(x)
+
+#define SUN_TRACE SOIL_TRACE
+#define SUN_DEBUG SOIL_DEBUG
+#define SUN_INFO  SOIL_INFO
+#define SUN_WARNING SOIL_WARNING
+#define SUN_ERROR SOIL_ERROR
+#define SUN_FATAL SOIL_FATAL
+#define SUN_PDU SOIL_PDU
+#define SUN_CUSTOM SOIL_CUSTOM
+
+
+#endif

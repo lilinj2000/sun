@@ -1,0 +1,7 @@
+AUTOMAKE_OPTIONS = foreign
+
+
+
+
+
+
