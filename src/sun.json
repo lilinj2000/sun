@@ -1,0 +1,37 @@
+{
+    "foal_trader": {
+        "broker_id": "0158", 
+        "flow_path": "traderflow/", 
+        "front_address": "tcp://180.169.101.189:7001", 
+        "investor_id": "04452", 
+        "password": "111111", 
+        "user_id": "04452"
+    }, 
+    "log": {
+        "level": "trace", 
+        "sinks": [
+            {
+                "sink": {
+                    "level": "trace", 
+                    "type": "stdout_sink_mt"
+                }
+            }, 
+            {
+                "sink": {
+                    "file_name": "logs/sun.log", 
+                    "max_file_size": 5000000, 
+                    "max_files": 10, 
+                    "type": "rotating_file_sink_mt"
+                }
+            }
+        ]
+    }, 
+    "sun": {
+        "count": 1, 
+        "data_file": "sun_data.txt", 
+        "instru": "IF1712", 
+        "interval": 2000, 
+        "price": 3790, 
+        "volume": 1
+    }
+}
