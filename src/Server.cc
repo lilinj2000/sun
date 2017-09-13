@@ -91,10 +91,7 @@ void Server::onRspOrderInsert(
       key);
 
   int32_t order_ref = std::stoi(order_local_id);
-  auto it = records_.find(order_ref);
-  if (it != records_.end()) {
-    it->second->updateT1();
-  }
+  updateT(order_ref);
 }
 
 void Server::onRspOrderAction(
@@ -124,13 +121,7 @@ void Server::onRtnOrder(
       key);
 
   int32_t order_ref = std::stoi(order_local_id);
-  auto it = records_.find(order_ref);
-  if (it != records_.end()) {
-    it->second->updateT2();
-
-    data_file_->putData(it->second);
-    records_.erase(it);
-  }
+  updateT(order_ref, false);
 }
 
 void Server::onRtnTrade(
@@ -182,5 +173,25 @@ void Server::run() {
 
   wait(options_->interval);
 }
+
+void Server::updateT(
+    int32_t order_ref,
+    bool is_t1) {
+  auto it = records_.find(order_ref);
+  if (it != records_.end()) {
+    if (is_t1) {
+      it->second->updateT1();
+    } else {
+      it->second->updateT2();
+    }
+
+    if (it->second->isT1Updated()
+        && it->second->isT2Updated() ) {
+      data_file_->putData(it->second);
+      records_.erase(it);
+    }
+  }
+}
+
 
 }  // namespace sun

@@ -65,6 +65,10 @@ class Server :
  protected:
   void run();
 
+  void updateT(
+      int32_t order_ref,
+      bool is_t1 = true);
+
   void wait(int ms = -1) {
     cond_->wait(ms);
   }

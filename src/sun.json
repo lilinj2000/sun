@@ -19,6 +19,7 @@
             {
                 "sink": {
                     "file_name": "logs/sun.log", 
+                    "level": "info", 
                     "max_file_size": 5000000, 
                     "max_files": 10, 
                     "type": "rotating_file_sink_mt"
@@ -27,7 +28,7 @@
         ]
     }, 
     "sun": {
-        "count": 1, 
+        "count": 100, 
         "data_file": "sun_data.txt", 
         "instru": "IF1712", 
         "interval": 2000, 

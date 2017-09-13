@@ -22,6 +22,7 @@ sink1 = {
 sink2 = {
     "sink": {
         "type": "rotating_file_sink_mt",
+        "level": "info",
         "file_name": "logs/sun.log",
         "max_file_size": 5000000,
         "max_files": 10
@@ -38,7 +39,7 @@ sun = {
     "price": 3790,
     "volume": 1,
     "interval": 2000,
-    "count": 1,
+    "count": 100,
     "data_file": "sun_data.txt"
     }
 
