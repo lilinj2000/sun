@@ -32,51 +32,16 @@ Server::~Server() {
   LOG_TRACE("Server::~Server()");
 }
 
-void Server::onRspError(
-    const std::string& rsp) {
-  LOG_TRACE("Server::onRspError()");
-
-  LOG_DEBUG("{}", rsp);
-}
-
-void Server::onRspQryInvestorAccount(
-    const std::string& rsp,
-    bool is_last) {
-  LOG_TRACE("onRspQryInvestorAccount()");
-
-  LOG_DEBUG("{}", rsp);
-}
-
-void Server::onRspQryOrder(
-    const std::string& rsp,
-    bool is_last) {
-  LOG_TRACE("onRspQryOrder()");
-
-  LOG_DEBUG("{}", rsp);
-}
-
-void Server::onRspQryTrade(
-    const std::string& rsp,
-    bool is_last) {
-  LOG_TRACE("onRspQryTrade()");
-
-  LOG_DEBUG("{}", rsp);
-}
-
-void Server::onRspQryInvestorPosition(
-    const std::string& rsp,
-    bool is_last) {
-  LOG_TRACE("onRspQryInvestorPosition()");
-
-  LOG_DEBUG("{}", rsp);
-}
-
 void Server::onRspOrderInsert(
     const std::string& rsp,
+    const std::string& err_info,
+    int req_id,
     bool is_last) {
-  LOG_TRACE("onRspOrderInsert()");
-
-  LOG_DEBUG("{}", rsp);
+  FOAL_ON_RSP_PRINT(
+      rsp,
+      err_info,
+      req_id,
+      is_last);
 
   rapidjson::Document doc;
   doc.Parse(rsp);
@@ -94,25 +59,18 @@ void Server::onRspOrderInsert(
   updateT(order_ref);
 }
 
-void Server::onRspOrderAction(
-    const std::string& rsp,
-    bool is_last) {
-  LOG_TRACE("onRspOrderAction()");
-
-  LOG_DEBUG("{}", rsp);
-}
-
-void Server::onRtnOrder(
-    const std::string& rtn) {
-  LOG_TRACE("onRtnOrder()");
-
-  LOG_DEBUG("{}", rtn);
+void Server::onErrRtnOrderInsert(
+    const std::string& rtn,
+    const std::string& err_info) {
+  FOAL_ON_ERRRTN_PRINT(
+      rtn,
+      err_info);
 
   rapidjson::Document doc;
   doc.Parse(rtn);
 
   std::string key
-      = "/CUstpFtdcOrderField/UserOrderLocalID";
+      = "/CUstpFtdcInputOrderField/UserOrderLocalID";
 
   std::string order_local_id;
   soil::json::get_item_value(
@@ -122,27 +80,6 @@ void Server::onRtnOrder(
 
   int32_t order_ref = std::stoi(order_local_id);
   updateT(order_ref, false);
-}
-
-void Server::onRtnTrade(
-    const std::string& rtn) {
-  LOG_TRACE("onRtnTrade()");
-
-  LOG_DEBUG("{}", rtn);
-}
-
-void Server::onErrRtnOrderInsert(
-    const std::string& rtn) {
-  LOG_TRACE("onErrRtnOrderInsert()");
-
-  LOG_DEBUG("{}", rtn);
-}
-
-void Server::onErrRtnOrderAction(
-    const std::string& rtn) {
-  LOG_TRACE("onErrRtnOrderAction()");
-
-  LOG_DEBUG("{}", rtn);
 }
 
 void Server::run() {
@@ -185,13 +122,11 @@ void Server::updateT(
       it->second->updateT2();
     }
 
-    if (it->second->isT1Updated()
-        && it->second->isT2Updated() ) {
+    if (it->second->allUpdated()) {
       data_file_->putData(it->second);
       records_.erase(it);
     }
   }
 }
-
 
 }  // namespace sun

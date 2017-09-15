@@ -23,44 +23,15 @@ class Server :
 
   virtual ~Server();
 
-  virtual void onRspError(
-      const std::string& rsp);
-
-  virtual void onRspQryInvestorAccount(
-      const std::string& rsp,
-      bool is_last);
-
-  virtual void onRspQryOrder(
-      const std::string& rsp,
-      bool is_last);
-
-  virtual void onRspQryTrade(
-      const std::string& rsp,
-      bool is_last);
-
-  virtual void onRspQryInvestorPosition(
-      const std::string& rsp,
-      bool is_last);
-
   virtual void onRspOrderInsert(
-      const std::string&,
+      const std::string& rsp,
+      const std::string& err_info,
+      int req_id,
       bool is_last);
-
-  virtual void onRspOrderAction(
-      const std::string&,
-      bool is_last);
-
-  virtual void onRtnOrder(
-      const std::string&);
-
-  virtual void onRtnTrade(
-      const std::string&);
 
   virtual void onErrRtnOrderInsert(
-      const std::string&);
-
-  virtual void onErrRtnOrderAction(
-      const std::string&);
+      const std::string& rtn,
+      const std::string& err_info);
 
  protected:
   void run();
