@@ -15,6 +15,8 @@ Options::Options(
   get_item_value(&interval, doc, "/sun/interval");
   get_item_value(&count, doc, "/sun/count");
 
+  get_item_value(&only_t1, doc, "/sun/only_t1");
+
   get_item_value(&data_file, doc, "/sun/data_file");
 }
 

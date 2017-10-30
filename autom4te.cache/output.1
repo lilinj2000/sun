@@ -799,6 +799,10 @@ FOAL_HOME
 SOIL_LIBADD
 SOIL_CPPFLAGS
 SOIL_HOME
+ARGS_CPPFLAGS
+ARGS_HOME
+READERWRITERQUEUE_CPPFLAGS
+READERWRITERQUEUE_HOME
 SPDLOG_CPPFLAGS
 SPDLOG_HOME
 FMT_LIBADD
@@ -939,6 +943,8 @@ with_boost
 with_rapidjson
 with_fmt
 with_spdlog
+with_readerwriterqueue
+with_args
 with_soil
 with_foal
 with_air
@@ -1605,6 +1611,10 @@ Optional Packages:
                           $RAPIDJSON_HOME
   --with-fmt              home path of the fmt, defaults to $FMT_HOME
   --with-spdlog           home path of the spdlog, defaults to $SPDLOG_HOME
+  --with-readerwriterqueue 
+                          home path of the readerwriterqueue, defaults to
+                          $READERWRITERQUEUE_HOME
+  --with-args             home path of the args, defaults to $ARGS_HOME
   --with-soil             home path of the soil, defaults to $home_libs/soil
   --with-foal             home path of the foal, defaults to $FOAL_HOME
   --with-air              home path of the air, defaults to $home_libs/air
@@ -15638,8 +15648,9 @@ LT_AGE=0
 
 
 
-home_3rd=~/3rd
-home_libs=~/libs
+node=`uname -n`
+home_3rd=~/3rd/${node}
+home_libs=~/libs/${node}
 
 
 @%:@ Check whether --with-boost was given.
@@ -15655,7 +15666,6 @@ BOOST_CPPFLAGS="-I$BOOST_HOME/include -DBOOST_ALL_DYN_LINK"
 BOOST_LIBADD=" \
               $BOOST_HOME/lib/libboost_filesystem.so \
   	      $BOOST_HOME/lib/libboost_regex.so \
-	      $BOOST_HOME/lib/libboost_thread.so \
 	      $BOOST_HOME/lib/libboost_system.so"
 
 
@@ -15704,6 +15714,33 @@ fi
 SPDLOG_CPPFLAGS="-I$SPDLOG_HOME/include -DSPDLOG_FMT_EXTERNAL"
 
 
+READERWRITERQUEUE_HOME=$home_3rd/readerwriterqueue
+
+@%:@ Check whether --with-readerwriterqueue was given.
+if test "${with_readerwriterqueue+set}" = set; then
+  withval=$with_readerwriterqueue; READERWRITERQUEUE_HOME="$withval"
+else
+  READERWRITERQUEUE_HOME="$READERWRITERQUEUE_HOME"
+fi
+
+
+
+READERWRITERQUEUE_CPPFLAGS="-I$READERWRITERQUEUE_HOME/include"
+
+
+ARGS_HOME=$home_3rd/args
+
+@%:@ Check whether --with-args was given.
+if test "${with_args+set}" = set; then
+  withval=$with_args; ARGS_HOME="$withval"
+else
+  ARGS_HOME="$ARGS_HOME"
+fi
+
+
+ARGS_CPPFLAGS="-I$ARGS_HOME/include"
+
+
 
 @%:@ Check whether --with-soil was given.
 if test "${with_soil+set}" = set; then
@@ -15750,7 +15787,7 @@ AIR_LIBADD="$AIR_HOME/lib/libair.la"
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/traderflow/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16763,7 +16800,6 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "src/traderflow/Makefile") CONFIG_FILES="$CONFIG_FILES src/traderflow/Makefile" ;;
 
   *) { { $as_echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 $as_echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

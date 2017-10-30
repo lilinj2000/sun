@@ -13,7 +13,9 @@
 
 namespace sun {
 
-typedef std::map<int32_t, air::TimeStampData*> TimeStampRecords;
+typedef std::map<
+  int32_t,
+  std::shared_ptr<air::TimeStampData> > TimeStampRecords;
 
 class Server :
       public foal::TraderCallback {

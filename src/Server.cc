@@ -9,7 +9,7 @@ namespace sun {
 
 Server::Server(
     const rapidjson::Document& doc) {
-  LOG_TRACE("Server::Server()");
+  SOIL_FUNC_TRACE;
 
   options_.reset(new Options(doc));
   service_.reset(
@@ -29,7 +29,7 @@ Server::Server(
 }
 
 Server::~Server() {
-  LOG_TRACE("Server::~Server()");
+  SOIL_FUNC_TRACE;
 }
 
 void Server::onRspOrderInsert(
@@ -37,11 +37,7 @@ void Server::onRspOrderInsert(
     const std::string& err_info,
     int req_id,
     bool is_last) {
-  FOAL_ON_RSP_PRINT(
-      rsp,
-      err_info,
-      req_id,
-      is_last);
+  SOIL_FUNC_TRACE;
 
   rapidjson::Document doc;
   doc.Parse(rsp);
@@ -62,9 +58,7 @@ void Server::onRspOrderInsert(
 void Server::onErrRtnOrderInsert(
     const std::string& rtn,
     const std::string& err_info) {
-  FOAL_ON_ERRRTN_PRINT(
-      rtn,
-      err_info);
+  SOIL_FUNC_TRACE;
 
   rapidjson::Document doc;
   doc.Parse(rtn);
@@ -83,20 +77,19 @@ void Server::onErrRtnOrderInsert(
 }
 
 void Server::run() {
-  LOG_TRACE("Server::run()");
+  SOIL_FUNC_TRACE;
 
   int count = 0;
 
   do {
-    int32_t order_ref = -1;
-
-    order_ref = service_->openBuyOrderFOK(
+    int32_t order_ref = service_->openBuyOrderFOK(
         options_->instru,
         options_->price,
         options_->volume);
 
     records_[order_ref]
-        = new air::TimeStampData(order_ref);
+        = std::shared_ptr<air::TimeStampData>(
+            new air::TimeStampData(order_ref));
 
     ++count;
 
@@ -122,7 +115,8 @@ void Server::updateT(
       it->second->updateT2();
     }
 
-    if (it->second->allUpdated()) {
+    if (options_->only_t1
+        || it->second->allUpdated()) {
       data_file_->putData(it->second);
       records_.erase(it);
     }

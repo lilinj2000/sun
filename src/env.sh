@@ -1,5 +1,5 @@
-
-home_3rd=~/3rd
+node=`uname -n`
+home_3rd=~/3rd/${node}
 home_boost=$home_3rd/boost
 home_fmt=$home_3rd/fmt
 home_fema=$home_3rd/FemasAPI_Classic_1.03_20160302

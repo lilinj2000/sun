@@ -33,8 +33,9 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-home_3rd=~/3rd
-home_libs=~/libs
+node=`uname -n`
+home_3rd=~/3rd/${node}
+home_libs=~/libs/${node}
 
 dnl boost lib
 AC_ARG_WITH([boost],
@@ -48,7 +49,6 @@ BOOST_CPPFLAGS="-I$BOOST_HOME/include -DBOOST_ALL_DYN_LINK"
 BOOST_LIBADD=" \
               $BOOST_HOME/lib/libboost_filesystem.so \
   	      $BOOST_HOME/lib/libboost_regex.so \
-	      $BOOST_HOME/lib/libboost_thread.so \
 	      $BOOST_HOME/lib/libboost_system.so"
 AC_SUBST(BOOST_CPPFLAGS)
 AC_SUBST(BOOST_LIBADD)
@@ -90,6 +90,29 @@ AC_SUBST([SPDLOG_HOME])
 
 SPDLOG_CPPFLAGS="-I$SPDLOG_HOME/include -DSPDLOG_FMT_EXTERNAL"
 AC_SUBST(SPDLOG_CPPFLAGS)
+
+dnl readerwriterqueue lib
+READERWRITERQUEUE_HOME=$home_3rd/readerwriterqueue
+AC_ARG_WITH([readerwriterqueue], 
+    [AS_HELP_STRING([--with-readerwriterqueue],
+        [home path of the readerwriterqueue, defaults to $READERWRITERQUEUE_HOME])],
+    [READERWRITERQUEUE_HOME="$withval"],
+    [READERWRITERQUEUE_HOME="$READERWRITERQUEUE_HOME"])
+AC_SUBST([READERWRITERQUEUE_HOME])
+
+READERWRITERQUEUE_CPPFLAGS="-I$READERWRITERQUEUE_HOME/include"
+AC_SUBST(READERWRITERQUEUE_CPPFLAGS)
+
+dnl args lib
+ARGS_HOME=$home_3rd/args
+AC_ARG_WITH([args], 
+    [AS_HELP_STRING([--with-args],
+        [home path of the args, defaults to $ARGS_HOME])],
+    [ARGS_HOME="$withval"],
+    [ARGS_HOME="$ARGS_HOME"])
+AC_SUBST([ARGS_HOME])
+ARGS_CPPFLAGS="-I$ARGS_HOME/include"
+AC_SUBST(ARGS_CPPFLAGS)
 
 dnl soil lib
 AC_ARG_WITH([soil],
@@ -133,8 +156,7 @@ AC_SUBST(AIR_LIBADD)
 
 AC_OUTPUT([
 	Makefile
-	src/Makefile
-	src/traderflow/Makefile])
+	src/Makefile])
 
 
 

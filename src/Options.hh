@@ -20,6 +20,8 @@ class Options {
   int interval;
   int count;
 
+  bool only_t1;
+
   std::string data_file;
 };
 

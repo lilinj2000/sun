@@ -799,6 +799,10 @@ FOAL_HOME
 SOIL_LIBADD
 SOIL_CPPFLAGS
 SOIL_HOME
+ARGS_CPPFLAGS
+ARGS_HOME
+READERWRITERQUEUE_CPPFLAGS
+READERWRITERQUEUE_HOME
 SPDLOG_CPPFLAGS
 SPDLOG_HOME
 FMT_LIBADD
@@ -939,6 +943,8 @@ with_boost
 with_rapidjson
 with_fmt
 with_spdlog
+with_readerwriterqueue
+with_args
 with_soil
 with_foal
 with_air
@@ -1605,6 +1611,10 @@ Optional Packages:
                           $RAPIDJSON_HOME
   --with-fmt              home path of the fmt, defaults to $FMT_HOME
   --with-spdlog           home path of the spdlog, defaults to $SPDLOG_HOME
+  --with-readerwriterqueue
+                          home path of the readerwriterqueue, defaults to
+                          $READERWRITERQUEUE_HOME
+  --with-args             home path of the args, defaults to $ARGS_HOME
   --with-soil             home path of the soil, defaults to $home_libs/soil
   --with-foal             home path of the foal, defaults to $FOAL_HOME
   --with-air              home path of the air, defaults to $home_libs/air
@@ -4923,13 +4933,13 @@ if test "${lt_cv_nm_interface+set}" = set; then
 else
   lt_cv_nm_interface="BSD nm"
   echo "int some_variable = 0;" > conftest.$ac_ext
-  (eval echo "\"\$as_me:4926: $ac_compile\"" >&5)
+  (eval echo "\"\$as_me:4936: $ac_compile\"" >&5)
   (eval "$ac_compile" 2>conftest.err)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4929: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+  (eval echo "\"\$as_me:4939: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4932: output\"" >&5)
+  (eval echo "\"\$as_me:4942: output\"" >&5)
   cat conftest.out >&5
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
@@ -6135,7 +6145,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 6138 "configure"' > conftest.$ac_ext
+  echo '#line 6148 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -8730,11 +8740,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8733: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8743: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:8737: \$? = $ac_status" >&5
+   echo "$as_me:8747: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9069,11 +9079,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9072: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9082: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:9076: \$? = $ac_status" >&5
+   echo "$as_me:9086: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9174,11 +9184,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9177: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9187: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9181: \$? = $ac_status" >&5
+   echo "$as_me:9191: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -9229,11 +9239,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9232: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9242: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9236: \$? = $ac_status" >&5
+   echo "$as_me:9246: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -12032,7 +12042,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 12035 "configure"
+#line 12045 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12128,7 +12138,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 12131 "configure"
+#line 12141 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -14148,11 +14158,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14151: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14161: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14155: \$? = $ac_status" >&5
+   echo "$as_me:14165: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14247,11 +14257,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14250: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14260: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14254: \$? = $ac_status" >&5
+   echo "$as_me:14264: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -14299,11 +14309,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14302: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14312: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14306: \$? = $ac_status" >&5
+   echo "$as_me:14316: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15638,8 +15648,9 @@ LT_AGE=0
 
 
 
-home_3rd=~/3rd
-home_libs=~/libs
+node=`uname -n`
+home_3rd=~/3rd/${node}
+home_libs=~/libs/${node}
 
 
 # Check whether --with-boost was given.
@@ -15655,7 +15666,6 @@ BOOST_CPPFLAGS="-I$BOOST_HOME/include -DBOOST_ALL_DYN_LINK"
 BOOST_LIBADD=" \
               $BOOST_HOME/lib/libboost_filesystem.so \
   	      $BOOST_HOME/lib/libboost_regex.so \
-	      $BOOST_HOME/lib/libboost_thread.so \
 	      $BOOST_HOME/lib/libboost_system.so"
 
 
@@ -15704,6 +15714,33 @@ fi
 SPDLOG_CPPFLAGS="-I$SPDLOG_HOME/include -DSPDLOG_FMT_EXTERNAL"
 
 
+READERWRITERQUEUE_HOME=$home_3rd/readerwriterqueue
+
+# Check whether --with-readerwriterqueue was given.
+if test "${with_readerwriterqueue+set}" = set; then
+  withval=$with_readerwriterqueue; READERWRITERQUEUE_HOME="$withval"
+else
+  READERWRITERQUEUE_HOME="$READERWRITERQUEUE_HOME"
+fi
+
+
+
+READERWRITERQUEUE_CPPFLAGS="-I$READERWRITERQUEUE_HOME/include"
+
+
+ARGS_HOME=$home_3rd/args
+
+# Check whether --with-args was given.
+if test "${with_args+set}" = set; then
+  withval=$with_args; ARGS_HOME="$withval"
+else
+  ARGS_HOME="$ARGS_HOME"
+fi
+
+
+ARGS_CPPFLAGS="-I$ARGS_HOME/include"
+
+
 
 # Check whether --with-soil was given.
 if test "${with_soil+set}" = set; then
@@ -15750,7 +15787,7 @@ AIR_LIBADD="$AIR_HOME/lib/libair.la"
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/traderflow/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16763,7 +16800,6 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "src/traderflow/Makefile") CONFIG_FILES="$CONFIG_FILES src/traderflow/Makefile" ;;
 
   *) { { $as_echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 $as_echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

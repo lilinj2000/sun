@@ -3,7 +3,7 @@
 import json
 
 foal_trader = { 
-    "flow_path": "traderflow/",
+    "flow_path": "./",
 
     "front_address": "tcp://180.169.101.189:7001",
     "broker_id": "0158",
@@ -23,7 +23,7 @@ sink2 = {
     "sink": {
         "type": "rotating_file_sink_mt",
         "level": "info",
-        "file_name": "logs/sun.log",
+        "file_name": "sun.log",
         "max_file_size": 5000000,
         "max_files": 10
         }
@@ -39,7 +39,8 @@ sun = {
     "price": 3790,
     "volume": 1,
     "interval": 2000,
-    "count": 100,
+    "count": 1,
+    "only_t1": True,
     "data_file": "sun_data.txt"
     }
 

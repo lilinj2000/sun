@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = traderflow
+SUBDIRS = 
 
 bin_PROGRAMS = sun
 sun_SOURCES = \
@@ -15,6 +15,8 @@ sun_CPPFLAGS = -I$(top_srcdir) \
 		$(SPDLOG_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
 		$(AIR_CPPFLAGS) \
+		$(READERWRITERQUEUE_CPPFLAGS) \
+		$(ARGS_CPPFLAGS) \
 		$(FOAL_CPPFLAGS)
 
 sun_LDADD = \
